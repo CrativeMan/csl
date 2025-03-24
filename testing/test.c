@@ -261,6 +261,14 @@ void test_datatypes() {
   }
   {
     csl_result test;
+    test = csl_result_warn(testValue, "Warning");
+    int passed = (test.status == CSL_RESULT_OK &&
+                  strcmp(test.error_message, "Warning") == 0 &&
+                  strcmp(test.value, "Hello, World!") == 0);
+    print_test_result("csl_result_warn", passed);
+  }
+  {
+    csl_result test;
     test = csl_result_error("Failed");
     int passed =
         (test.status == CSL_RESULT_ERROR &&
@@ -285,9 +293,9 @@ int main() {
   test_datatypes();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
-  printf("%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
+  printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
          CSL_COLOR_RESET);
-  printf("Tests completed.\n");
+  printf("\nTests completed.\n");
 
   return 0;
 }
