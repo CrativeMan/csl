@@ -21,3 +21,12 @@ typedef int32_t i32;
 typedef int64_t i64;
 typedef size_t usize;
 
+#define CSL_ARRAY_LENGTH(x) (sizeof(x) / sizeof((x)[0]))
+#define CSL_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define CSL_MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CSL_SWAP(a, b)                                                         \
+  do {                                                                         \
+    __typeof__(a) temp = (a);                                                  \
+    (a) = (b);                                                                 \
+    (b) = temp;                                                                \
+  } while (0)

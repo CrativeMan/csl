@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c11
 LDFLAGS = 
-SRCDIR = src
+SRCDIR = testing
 OBJDIR = obj
 TARGETDIR = bin
 SRCS = $(wildcard $(SRCDIR)/*.c)

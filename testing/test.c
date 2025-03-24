@@ -1,11 +1,15 @@
-#include "csl/colors.h"
-#include "csl/geometry/vectors.h"
+#include "../csl/colors.h"
+#include "../csl/datatypes/core.h"
+#include "../csl/geometry/vectors.h"
 
 #include <locale.h>
 #include <stdio.h>
+#include <string.h>
 
 static int passedTests = 0;
 static int testCount = 0;
+
+static char *testValue = "Hello, World!";
 
 void print_test_result(const char *test_name, int passed) {
   testCount++;
@@ -226,6 +230,45 @@ void test_vector_cross() {
   }
 }
 
+void test_datatypes() {
+  {
+    CSL_DEFINE_PAIR(test, int, float);
+    test testt;
+    testt.first = 10;
+    testt.second = 20.5f;
+    int passed = (testt.first == 10 && testt.second == 20.5f);
+    print_test_result("csl_pair", passed);
+  }
+  {
+    csl_optional test;
+    test = csl_optional_some(testValue);
+    int passed =
+        (test.has_value == true && strcmp(test.data, "Hello, World!") == 0);
+    print_test_result("csl_optional_some", passed);
+  }
+  {
+    csl_optional test;
+    test = csl_optional_none();
+    int passed = (test.has_value == false && test.data == NULL);
+    print_test_result("csl_optional_none", passed);
+  }
+  {
+    csl_result test;
+    test = csl_result_ok(testValue);
+    int passed = (test.status == CSL_RESULT_OK && test.error_message == NULL &&
+                  strcmp(test.value, "Hello, World!") == 0);
+    print_test_result("csl_result_ok", passed);
+  }
+  {
+    csl_result test;
+    test = csl_result_error("Failed");
+    int passed =
+        (test.status == CSL_RESULT_ERROR &&
+         strcmp(test.error_message, "Failed") == 0 && test.value == NULL);
+    print_test_result("csl_result_error", passed);
+  }
+}
+
 int main() {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
@@ -236,6 +279,10 @@ int main() {
   test_vector_subtract();
   test_vector_dot();
   test_vector_cross();
+
+  printf("Running datatype tests...\n");
+
+  test_datatypes();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
