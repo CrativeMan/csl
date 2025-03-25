@@ -1,9 +1,6 @@
 #ifndef CSL_FILEIO_TEXT_H
 #define CSL_FILEIO_TEXT_H
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
