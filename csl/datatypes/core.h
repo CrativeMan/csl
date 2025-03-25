@@ -36,6 +36,11 @@ typedef struct {
   bool has_value;
 } csl_optional;
 
+static inline int csl_validate_optional(csl_optional *o) {
+  return (o->has_value && o->data != NULL) ||
+         (!o->has_value && o->data == NULL);
+}
+
 static inline csl_optional csl_optional_some(void *value) {
   return (csl_optional){.data = value, .has_value = true};
 }
