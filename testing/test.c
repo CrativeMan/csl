@@ -1,5 +1,7 @@
 #include "../csl/colors.h"
-#include "../csl/datatypes/core.h"
+#include "../csl/datatypes/optional.h"
+#include "../csl/datatypes/pair.h"
+#include "../csl/datatypes/result.h"
 #include "../csl/geometry/vectors.h"
 
 #include <locale.h>
