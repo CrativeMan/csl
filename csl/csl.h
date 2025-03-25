@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CSL_CSL_H
+#define CSL_CSL_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -31,3 +32,5 @@ typedef unsigned char uchar;
     (a) = (b);                                                                 \
     (b) = temp;                                                                \
   } while (0)
+
+#endif // CSL_CSL_H
