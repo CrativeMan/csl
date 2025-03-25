@@ -233,7 +233,7 @@ void test_vector_cross() {
   }
 }
 
-void test_datatypes() {
+void test_datatype_pair() {
   {
     CSL_DEFINE_PAIR(test, int, float);
     test testt;
@@ -242,6 +242,9 @@ void test_datatypes() {
     int passed = (testt.first == 10 && testt.second == 20.5f);
     print_test_result("csl_pair", passed);
   }
+}
+
+void test_datatype_optional() {
   {
     csl_optional test;
     test = csl_optional_some(testValue);
@@ -263,6 +266,9 @@ void test_datatypes() {
     int passed = (csl_validate_optional(&some) && csl_validate_optional(&none));
     print_test_result("csl_validate_optional", passed);
   }
+}
+
+void test_datatype_result() {
   {
     csl_result test;
     test = csl_result_ok(testValue);
@@ -301,7 +307,9 @@ int main() {
 
   printf("Running datatype tests...\n");
 
-  test_datatypes();
+  test_datatype_pair();
+  test_datatype_optional();
+  test_datatype_result();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
