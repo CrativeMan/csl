@@ -1,11 +1,26 @@
 #ifndef CSL_FILEIO_TEXT_H
 #define CSL_FILEIO_TEXT_H
 
+#include <limits.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "../csl.h"
+
+#define NUMBYTES 8
+
+inline static int _check_header(uchar bytes[NUMBYTES]) {
+  int elf = (bytes[0] == 0x7f && bytes[1] == 'E' && bytes[2] == 'L' &&
+             bytes[3] == 'F');
+  int png =
+      (bytes[0] == 137 && bytes[1] == 80 && bytes[2] == 78 && bytes[3] == 71 &&
+       bytes[4] == 13 && bytes[5] == 10 && bytes[6] == 26 && bytes[7] == 10);
+  int jpg = (bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF &&
+             bytes[3] == 0xE0);
+  return (elf || png || jpg);
+}
 
 /**
  * Returnd value needs to be freed
@@ -13,49 +28,60 @@
 inline static char *csl_read_string_from_file(const char *filepath) {
   FILE *file = fopen(filepath, "rb");
   if (file == NULL) {
-    printf("csl: failed to open file\n");
+    perror("csl: fopen");
     return NULL;
   }
 
-  // first for bytes of ELF bins are {0x7f, 'E', 'L', 'F'}
-  char bytes[4];
+  // getting the NUMBYTES amount of bytes from the header of the file
+  uchar bytes[NUMBYTES];
   int c, i;
-  for (i = 0; i < 4; i++) {
-    c = fgetc(file);
+  for (i = 0; i < NUMBYTES; i++) {
+    c = getc(file);
     if (c == EOF) {
-      printf("csl: failed to read file header\n");
+      fprintf(stderr, "csl: failed to read file header\n");
       fclose(file);
       return NULL;
     }
-    bytes[i] = (char)c;
+    bytes[i] = (uchar)c;
   }
 
   // check if file is ELF
-  if (bytes[0] == 0x7f && bytes[1] == 'E' && bytes[2] == 'L' &&
-      bytes[3] == 'F') {
+  if (_check_header(bytes)) {
     fclose(file);
-    printf("csl: file is ELF format\n");
+    fprintf(stderr, "csl: file is binary format format\n");
     return NULL;
   }
 
-  // reset file pointer to first char
-  fseek(file, 0, SEEK_SET);
-
   // get file size
-  fseek(file, 0, SEEK_END);
+  if (fseek(file, 0, SEEK_END) != 0) {
+    perror("csl: fseek to end");
+    fclose(file);
+    return NULL;
+  }
   long unsigned int fileSize = ftell(file);
-  fseek(file, 0, SEEK_SET);
+
+  if (fileSize > SIZE_MAX - 1) {
+    fprintf(stderr, "csl: file size is invalid\n");
+    fclose(file);
+    return NULL;
+  }
+
+  if (fseek(file, 0, SEEK_SET) != 0) {
+    perror("csl: fseek to start");
+    fclose(file);
+    return NULL;
+  }
 
   char *buffer = (char *)malloc(fileSize + 1);
   if (buffer == NULL) {
-    printf("csl: failed to alloc buffer\n");
+    fprintf(stderr, "csl: failed to alloc buffer\n");
     fclose(file);
     return NULL;
   }
 
   size_t readSize = fread(buffer, 1, fileSize, file);
   if (readSize != fileSize) {
-    printf("csl: failed to read file\n");
+    fprintf(stderr, "csl: failed to read file\n");
     free(buffer);
     fclose(file);
     return NULL;

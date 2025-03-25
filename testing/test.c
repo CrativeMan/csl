@@ -6,6 +6,7 @@
 #include "../csl/geometry/vector2d.h"
 #include "../csl/geometry/vector3d.h"
 
+#include <limits.h>
 #include <locale.h>
 #include <stdio.h>
 #include <string.h>
@@ -312,6 +313,18 @@ void test_fileio_readFile() {
     char *buffer = csl_read_string_from_file("testing/testbin");
     int passed = (buffer == NULL);
     print_test_result("csl_read_string_from_file_bin", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testpng.png");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_png", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testjpg.jpg");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_jpg", passed);
     free(buffer);
   }
   {

@@ -20,6 +20,7 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 typedef size_t usize;
+typedef unsigned char uchar;
 
 #define CSL_ARRAY_LENGTH(x) (sizeof(x) / sizeof((x)[0]))
 #define CSL_MIN(a, b) ((a) < (b) ? (a) : (b))
