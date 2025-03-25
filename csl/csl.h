@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define ASSERT(_e, ...)                                                        \
+#define CSL_ASSERT(_e, ...)                                                    \
   if (!(_e)) {                                                                 \
     fprintf(stderr, __VA_ARGS__);                                              \
     exit(1);                                                                   \

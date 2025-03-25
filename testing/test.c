@@ -2,6 +2,7 @@
 #include "../csl/datatypes/optional.h"
 #include "../csl/datatypes/pair.h"
 #include "../csl/datatypes/result.h"
+#include "../csl/fileio/text.h"
 #include "../csl/geometry/vector2d.h"
 #include "../csl/geometry/vector3d.h"
 
@@ -294,6 +295,33 @@ void test_datatype_result() {
   }
 }
 
+void test_fileio_readFile() {
+  {
+    char *buffer = csl_read_string_from_file("testing/testtxt.txt");
+    int passed = (strcmp(buffer, "Hello, World!\nLorem Ipsum\n") == 0);
+    print_test_result("csl_read_string_from_file_txt", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testmd.md");
+    int passed = (strcmp(buffer, "# Heading1\n## Heading2\n") == 0);
+    print_test_result("csl_read_string_from_file_md", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testbin");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_bin", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/notfound.txt");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_not_found", passed);
+    free(buffer);
+  }
+}
+
 int main() {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
@@ -310,6 +338,10 @@ int main() {
   test_datatype_pair();
   test_datatype_optional();
   test_datatype_result();
+
+  printf("Running fileio tests...\n");
+
+  test_fileio_readFile();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
