@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c11
+CFLAGS = -Wall -Wextra -pedantic -std=c11 -g
 LDFLAGS = 
 SRCDIR = testing
 OBJDIR = obj
@@ -29,6 +29,9 @@ clean:
 
 count:
 	cloc csl testing
+
+check-for-leaks:
+	valgrind --leak-check=full --show-leak-kinds=all $(TARGETMAIN)
 
 run:
 	./bin/main
