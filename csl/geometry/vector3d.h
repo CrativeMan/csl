@@ -4,16 +4,8 @@
 #include "../csl.h"
 
 // ===============================================
-// Vector definitions
+// Vector 3d definitions
 // ===============================================
-struct vec2i_t {
-  i32 x, y;
-};
-
-struct vec2f_t {
-  f32 x, y;
-};
-
 struct vec3i_t {
   i32 x, y, z;
 };
@@ -23,20 +15,10 @@ struct vec3f_t {
 };
 
 // Definitions
-typedef struct vec2i_t v2i;
-typedef struct vec2f_t v2f;
 typedef struct vec3i_t v3i;
 typedef struct vec3f_t v3f;
 
 // Setting vectors
-inline void csl_v2i_set(v2i *v, i32 x, i32 y) {
-  v->x = x;
-  v->y = y;
-}
-inline void csl_v2f_set(v2f *v, f32 x, f32 y) {
-  v->x = x;
-  v->y = y;
-}
 inline void csl_v3i_set(v3i *v, i32 x, i32 y, i32 z) {
   v->x = x;
   v->y = y;
@@ -46,14 +28,6 @@ inline void csl_v3f_set(v3f *v, f32 x, f32 y, f32 z) {
   v->x = x;
   v->y = y;
   v->z = z;
-}
-inline void csl_v2i_set_value(v2i *v, i32 value) {
-  v->x = value;
-  v->y = value;
-}
-inline void csl_v2f_set_value(v2f *v, f32 value) {
-  v->x = value;
-  v->y = value;
 }
 inline void csl_v3i_set_value(v3i *v, i32 value) {
   v->x = value;
@@ -67,14 +41,6 @@ inline void csl_v3f_set_value(v3f *v, f32 value) {
 }
 
 // Initialising with zero
-inline void csl_v2i_zero(v2i *v) {
-  v->x = 0;
-  v->y = 0;
-}
-inline void csl_v2f_zero(v2f *v) {
-  v->x = 0.0f;
-  v->y = 0.0f;
-}
 inline void csl_v3i_zero(v3i *v) {
   v->x = 0;
   v->y = 0;
@@ -91,14 +57,6 @@ inline void csl_v3f_zero(v3f *v) {
 // ===============================================
 
 // Scaling
-inline void csl_v2i_scale(v2i *v, i32 scale) {
-  v->x *= scale;
-  v->y *= scale;
-}
-inline void csl_v2f_scale(v2f *v, i32 scale) {
-  v->x *= scale;
-  v->y *= scale;
-}
 inline void csl_v3i_scale(v3i *v, f32 scale) {
   v->x *= scale;
   v->y *= scale;
@@ -111,14 +69,6 @@ inline void csl_v3f_scale(v3f *v, f32 scale) {
 }
 
 // Addition
-inline void csl_v2i_add_vec(v2i *vto, v2i *v) {
-  vto->x += v->x;
-  vto->y += v->y;
-}
-inline void csl_v2f_add_vec(v2f *vto, v2f *v) {
-  vto->x += v->x;
-  vto->y += v->y;
-}
 inline void csl_v3i_add_vec(v3i *vto, v3i *v) {
   vto->x += v->x;
   vto->y += v->y;
@@ -131,14 +81,6 @@ inline void csl_v3f_add_vec(v3f *vto, v3f *v) {
 }
 
 // Subtraction
-inline void csl_v2i_subtract(v2i *vfrom, v2i *v) {
-  vfrom->x -= v->x;
-  vfrom->y -= v->y;
-}
-inline void csl_v2f_subtract(v2f *vfrom, v2f *v) {
-  vfrom->x -= v->x;
-  vfrom->y -= v->y;
-}
 inline void csl_v3i_subtract(v3i *vfrom, v3i *v) {
   vfrom->x -= v->x;
   vfrom->y -= v->y;
@@ -151,8 +93,6 @@ inline void csl_v3f_subtract(v3f *vfrom, v3f *v) {
 }
 
 // Dot Product
-inline i32 csl_v2i_dot(v2i *a, v2i *b) { return a->x * b->x + a->y * b->y; }
-inline f32 csl_v2f_dot(v2f *a, v2f *b) { return a->x * b->x + a->y * b->y; }
 inline i32 csl_v3i_dot(v3i *a, v3i *b) {
   return a->x * b->x + a->y * b->y + a->z * b->z;
 }

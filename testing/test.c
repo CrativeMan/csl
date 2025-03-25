@@ -2,7 +2,8 @@
 #include "../csl/datatypes/optional.h"
 #include "../csl/datatypes/pair.h"
 #include "../csl/datatypes/result.h"
-#include "../csl/geometry/vectors.h"
+#include "../csl/geometry/vector2d.h"
+#include "../csl/geometry/vector3d.h"
 
 #include <locale.h>
 #include <stdio.h>
