@@ -2,8 +2,10 @@
 #define CSL_FILEIO_TEXT_H
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../csl.h"
 
@@ -22,15 +24,24 @@ inline static int _check_header(uchar bytes[NUMBYTES]) {
 
 inline static bool csl_write_string_to_file(const char *contents,
                                             const char *filepath) {
-  FILE *file = fopen(filepath, "w");
+  FILE *file = fopen(filepath, "wb");
   if (file == NULL) {
     perror("csl: fopen");
     return false;
   }
 
-  fprintf(file, "%s", contents);
+  size_t len = strlen(contents);
+  if (fwrite(contents, 1, len, file) != len) {
+    perror("csl: fprintf failed");
+    fclose(file);
+    return false;
+  }
 
-  fclose(file);
+  if (fclose(file) != 0) {
+    perror("csl: fclose failed");
+    return false;
+  }
+
   return true;
 }
 
@@ -100,7 +111,10 @@ inline static char *csl_read_string_from_file(const char *filepath) {
   }
 
   buffer[fileSize] = '\0';
-  fclose(file);
+  if (fclose(file) != 0) {
+    perror("csl: fclose falied");
+    return NULL;
+  }
 
   return buffer;
 }
