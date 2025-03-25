@@ -31,7 +31,7 @@ count:
 	cloc csl testing
 
 check-for-leaks:
-	valgrind --leak-check=full --show-leak-kinds=all $(TARGETMAIN)
+	valgrind -s --leak-check=full --show-leak-kinds=all $(TARGETMAIN)
 
 run:
 	./bin/main

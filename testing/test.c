@@ -8,6 +8,7 @@
 
 #include <limits.h>
 #include <locale.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -335,6 +336,15 @@ void test_fileio_readFile() {
   }
 }
 
+void test_fileio_writeFile() {
+  {
+    const char *buffer =
+        "Hello, World!\nThis is a new line.\nThis is a new line with numbers.";
+    bool result = csl_write_string_to_file(buffer, "testing/wrote.txt");
+    print_test_result("csl_write_string_to_file_txt", (int)result);
+  }
+}
+
 int main() {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
@@ -355,6 +365,7 @@ int main() {
   printf("Running fileio tests...\n");
 
   test_fileio_readFile();
+  test_fileio_writeFile();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,

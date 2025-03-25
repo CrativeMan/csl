@@ -1,6 +1,7 @@
 #ifndef CSL_FILEIO_TEXT_H
 #define CSL_FILEIO_TEXT_H
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -17,6 +18,20 @@ inline static int _check_header(uchar bytes[NUMBYTES]) {
   int jpg = (bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF &&
              bytes[3] == 0xE0);
   return (elf || png || jpg);
+}
+
+inline static bool csl_write_string_to_file(const char *contents,
+                                            const char *filepath) {
+  FILE *file = fopen(filepath, "w");
+  if (file == NULL) {
+    perror("csl: fopen");
+    return false;
+  }
+
+  fprintf(file, "%s", contents);
+
+  fclose(file);
+  return true;
 }
 
 /**
