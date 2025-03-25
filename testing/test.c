@@ -1,6 +1,9 @@
 #include "../csl/colors.h"
-#include "../csl/datatypes/core.h"
-#include "../csl/geometry/vectors.h"
+#include "../csl/datatypes/optional.h"
+#include "../csl/datatypes/pair.h"
+#include "../csl/datatypes/result.h"
+#include "../csl/geometry/vector2d.h"
+#include "../csl/geometry/vector3d.h"
 
 #include <locale.h>
 #include <stdio.h>
@@ -253,11 +256,27 @@ void test_datatypes() {
     print_test_result("csl_optional_none", passed);
   }
   {
+    csl_optional some;
+    csl_optional none;
+    some = csl_optional_some(testValue);
+    none = csl_optional_none();
+    int passed = (csl_validate_optional(&some) && csl_validate_optional(&none));
+    print_test_result("csl_validate_optional", passed);
+  }
+  {
     csl_result test;
     test = csl_result_ok(testValue);
     int passed = (test.status == CSL_RESULT_OK && test.error_message == NULL &&
                   strcmp(test.value, "Hello, World!") == 0);
     print_test_result("csl_result_ok", passed);
+  }
+  {
+    csl_result test;
+    test = csl_result_warn(testValue, "Warning");
+    int passed = (test.status == CSL_RESULT_OK &&
+                  strcmp(test.error_message, "Warning") == 0 &&
+                  strcmp(test.value, "Hello, World!") == 0);
+    print_test_result("csl_result_warn", passed);
   }
   {
     csl_result test;
@@ -285,9 +304,9 @@ int main() {
   test_datatypes();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
-  printf("%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
+  printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
          CSL_COLOR_RESET);
-  printf("Tests completed.\n");
+  printf("\nTests completed.\n");
 
   return 0;
 }

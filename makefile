@@ -27,5 +27,8 @@ clean:
 	rm -rf $(OBJDIR)
 	rm -rf $(TARGETDIR)
 
+count:
+	cloc csl testing
+
 run:
 	./bin/main
