@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+/**
+ * Assertion that uses exit(1) to close out of the program allowing
+ * for functions to run that are set to atexit
+ */
 #define CSL_ASSERT(_e, ...)                                                    \
   if (!(_e)) {                                                                 \
     fprintf(stderr, __VA_ARGS__);                                              \
@@ -28,9 +32,9 @@ typedef unsigned char uchar;
 #define CSL_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CSL_SWAP(a, b)                                                         \
   do {                                                                         \
-    __typeof__(a) temp = (a);                                                  \
+    __typeof__(a) _csl_temp = (a);                                             \
     (a) = (b);                                                                 \
-    (b) = temp;                                                                \
+    (b) = _csl_temp;                                                           \
   } while (0)
 
 #endif // CSL_CSL_H
