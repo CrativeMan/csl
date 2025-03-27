@@ -2,6 +2,7 @@
 #include "../csl/datatypes/optional.h"
 #include "../csl/datatypes/pair.h"
 #include "../csl/datatypes/result.h"
+#include "../csl/datatypes/stringbuilder.h"
 #include "../csl/fileio/text.h"
 #include "../csl/geometry/vector2d.h"
 #include "../csl/geometry/vector3d.h"
@@ -410,6 +411,14 @@ void test_min_max() {
   }
 }
 
+void test_string_builder() {
+  {
+    csl_sb sb;
+    csl_sb_init(&sb);
+    csl_sb_delete(&sb);
+  }
+}
+
 int main() {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
@@ -436,10 +445,14 @@ int main() {
   test_defines();
   test_min_max();
 
+  printf("Running string builder tests...\n");
+
+  printf("\nTests completed.\n");
+  test_string_builder();
+
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
          CSL_COLOR_RESET);
-  printf("\nTests completed.\n");
 
   return 0;
 }
