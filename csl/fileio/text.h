@@ -22,27 +22,27 @@ inline static int _check_header(uchar bytes[NUMBYTES]) {
   return (elf || png || jpg);
 }
 
-inline static bool csl_write_string_to_file(const char *contents,
-                                            const char *filepath) {
+inline static int csl_write_string_to_file(const char *contents,
+                                           const char *filepath) {
   FILE *file = fopen(filepath, "wb");
   if (file == NULL) {
     perror("csl: fopen");
-    return false;
+    return 0;
   }
 
   size_t len = strlen(contents);
   if (fwrite(contents, 1, len, file) != len) {
     perror("csl: fprintf failed");
     fclose(file);
-    return false;
+    return 0;
   }
 
   if (fclose(file) != 0) {
     perror("csl: fclose failed");
-    return false;
+    return 0;
   }
 
-  return true;
+  return 1;
 }
 
 /**

@@ -340,8 +340,8 @@ void test_fileio_writeFile() {
   {
     const char *buffer =
         "Hello, World!\nThis is a new line.\nThis is a new line with numbers.";
-    bool result = csl_write_string_to_file(buffer, "testing/wrote.txt");
-    print_test_result("csl_write_string_to_file_txt", (int)result);
+    int result = csl_write_string_to_file(buffer, "testing/wrote.txt");
+    print_test_result("csl_write_string_to_file_txt", result);
   }
 }
 
