@@ -8,7 +8,7 @@
 
 #include <limits.h>
 #include <locale.h>
-#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -345,6 +345,71 @@ void test_fileio_writeFile() {
   }
 }
 
+void test_defines() {
+  // write more tests
+  // same value, diffrent data types
+  {
+    int a = 10;
+    int b = 20;
+    CSL_SWAP(a, b);
+    int passed = (a == 20 && b == 10);
+    print_test_result("csl_swap", passed);
+  }
+  // write more tests
+  // no array, empty array
+  {
+    int a[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    size_t length = CSL_ARRAY_LENGTH(a);
+    int passed = (length == 10);
+    print_test_result("csl_array_length", passed);
+  }
+}
+
+void test_min_max() {
+  {
+    int a = 45;
+    int b = 20;
+    int result = CSL_MIN(a, b);
+    int passed = (result == 20);
+    print_test_result("csl_min_int_different", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 40.3f;
+    float result = CSL_MIN(a, b);
+    int passed = (result == 30.5f);
+    print_test_result("csl_min_float_different", passed);
+  }
+  {
+    int a = 45;
+    int b = 20;
+    int result = CSL_MAX(a, b);
+    int passed = (result == 45);
+    print_test_result("csl_max_int_different", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 40.3f;
+    float result = CSL_MAX(a, b);
+    int passed = (result == 40.3f);
+    print_test_result("csl_max_float_different", passed);
+  }
+  {
+    int a = 20;
+    int b = 20;
+    int result = CSL_MAX(a, b);
+    int passed = (result == 20);
+    print_test_result("csl_max_int_same", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 30.5f;
+    float result = CSL_MAX(a, b);
+    int passed = (result == 30.5f);
+    print_test_result("csl_max_float_same", passed);
+  }
+}
+
 int main() {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
@@ -366,6 +431,10 @@ int main() {
 
   test_fileio_readFile();
   test_fileio_writeFile();
+
+  printf("Running define basic function tests...\n");
+  test_defines();
+  test_min_max();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
