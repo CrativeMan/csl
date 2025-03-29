@@ -25,7 +25,7 @@ void print_test_result(const char *test_name, int passed) {
   char *symbol = passed ? "✓" : "◯";
   char *color = passed ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   char *context = passed ? "PASSED" : "FAILED";
-  printf("%s %s: %s%s%s\n", symbol, test_name, color, context, CSL_COLOR_RESET);
+  printf("%d. %s %s: %s%s%s\n", testCount, symbol, test_name, color, context, CSL_COLOR_RESET);
 }
 
 void test_vector_set() {
@@ -413,9 +413,33 @@ void test_min_max() {
 
 void test_string_builder() {
   {
-    csl_sb sb;
-    csl_sb_init(&sb);
-    csl_sb_delete(&sb);
+    csl_sb *sb = csl_sb_init();
+    csl_sb_delete(sb);
+    print_test_result("csl_sb_init (just check if error)", 1);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    int passed = (result == 1 && strcmp(sb->contents, "Hello, World") == 0 && sb->length == 12);
+    print_test_result("csl_sb_append", passed);
+    csl_sb_delete(sb);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    csl_sb_clear(sb);
+    int passed = (result == 1 && strcmp(sb->contents, "") == 0 && sb->length == 0 && sb->contents[0] == '\0');
+    print_test_result("csl_sb_clear", passed);
+    csl_sb_delete(sb);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    char *rb = csl_sb_to_string(sb);
+    int passed = (result == 1 && strcmp(rb, "Hello, World") == 0);
+    print_test_result("csl_sb_to_string", passed);
+    csl_sb_delete(sb);
+    free(rb);
   }
 }
 
@@ -446,9 +470,9 @@ int main() {
   test_min_max();
 
   printf("Running string builder tests...\n");
+  test_string_builder();
 
   printf("\nTests completed.\n");
-  test_string_builder();
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
