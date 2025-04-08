@@ -30,6 +30,8 @@
               vcpkg
               vcpkg-tool
               valgrind
+              pandoc
+              lynx
             ] ++ (if system == "aarch64-darwin" then [ ] else [ gdb ]);
           };
       });

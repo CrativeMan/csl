@@ -33,5 +33,8 @@ count:
 check-for-leaks:
 	valgrind -s --leak-check=full --show-leak-kinds=all $(TARGETMAIN)
 
+render-readme:
+	pandoc README.md | lynx -stdin
+
 run:
 	./bin/main
