@@ -1,11 +1,16 @@
-#include "../csl/colors.h"
-#include "../csl/datatypes/optional.h"
-#include "../csl/datatypes/pair.h"
-#include "../csl/datatypes/result.h"
-#include "../csl/geometry/vector2d.h"
-#include "../csl/geometry/vector3d.h"
+#include "colors.h"
+#include "datatypes/error.h"
+#include "datatypes/optional.h"
+#include "datatypes/pair.h"
+#include "datatypes/result.h"
+#include "datatypes/stringbuilder.h"
+#include "fileio/text.h"
+#include "geometry/vector2d.h"
+#include "geometry/vector3d.h"
 
+#include <limits.h>
 #include <locale.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -21,10 +26,11 @@ void print_test_result(const char *test_name, int passed) {
   char *symbol = passed ? "✓" : "◯";
   char *color = passed ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   char *context = passed ? "PASSED" : "FAILED";
-  printf("%s %s: %s%s%s\n", symbol, test_name, color, context, CSL_COLOR_RESET);
+  printf("%d. %s %s: %s%s%s\n", testCount, symbol, test_name, color, context,
+         CSL_COLOR_RESET);
 }
 
-void test_vector_set() {
+void test_vector_set(void) {
   {
     v2i vec;
     csl_v2i_set(&vec, 5, 10);
@@ -76,7 +82,7 @@ void test_vector_set() {
   }
 }
 
-void test_vector_scale() {
+void test_vector_scale(void) {
   {
     v2i vec;
     csl_v2i_set(&vec, 5, 10);
@@ -107,7 +113,7 @@ void test_vector_scale() {
   }
 }
 
-void test_vector_add() {
+void test_vector_add(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -142,7 +148,7 @@ void test_vector_add() {
   }
 }
 
-void test_vector_subtract() {
+void test_vector_subtract(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -177,7 +183,7 @@ void test_vector_subtract() {
   }
 }
 
-void test_vector_dot() {
+void test_vector_dot(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -212,7 +218,7 @@ void test_vector_dot() {
   }
 }
 
-void test_vector_cross() {
+void test_vector_cross(void) {
   {
     v3i vec1, vec2, result;
     csl_v3i_set(&vec1, 5, 10, 15);
@@ -233,7 +239,7 @@ void test_vector_cross() {
   }
 }
 
-void test_datatypes() {
+void test_datatype_pair(void) {
   {
     CSL_DEFINE_PAIR(test, int, float);
     test testt;
@@ -242,6 +248,9 @@ void test_datatypes() {
     int passed = (testt.first == 10 && testt.second == 20.5f);
     print_test_result("csl_pair", passed);
   }
+}
+
+void test_datatype_optional(void) {
   {
     csl_optional test;
     test = csl_optional_some(testValue);
@@ -263,6 +272,9 @@ void test_datatypes() {
     int passed = (csl_validate_optional(&some) && csl_validate_optional(&none));
     print_test_result("csl_validate_optional", passed);
   }
+}
+
+void test_datatype_result(void) {
   {
     csl_result test;
     test = csl_result_ok(testValue);
@@ -288,7 +300,154 @@ void test_datatypes() {
   }
 }
 
-int main() {
+void test_fileio_readFile(void) {
+  {
+    char *buffer = csl_read_string_from_file("testing/testtxt.txt");
+    int passed = (strcmp(buffer, "Hello, World!\nLorem Ipsum\n") == 0);
+    print_test_result("csl_read_string_from_file_txt", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testmd.md");
+    int passed = (strcmp(buffer, "# Heading1\n## Heading2\n") == 0);
+    print_test_result("csl_read_string_from_file_md", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testbin");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_bin", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testpng.png");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_png", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/testjpg.jpg");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_jpg", passed);
+    free(buffer);
+  }
+  {
+    char *buffer = csl_read_string_from_file("testing/notfound.txt");
+    int passed = (buffer == NULL);
+    print_test_result("csl_read_string_from_file_not_found", passed);
+    free(buffer);
+  }
+}
+
+void test_fileio_writeFile(void) {
+  {
+    const char *buffer =
+        "Hello, World!\nThis is a new line.\nThis is a new line with numbers.";
+    int result = csl_write_string_to_file(buffer, "testing/wrote.txt");
+    print_test_result("csl_write_string_to_file_txt", result);
+  }
+}
+
+void test_defines(void) {
+  // write more tests
+  // same value, diffrent data types
+  {
+    int a = 10;
+    int b = 20;
+    CSL_SWAP(a, b);
+    int passed = (a == 20 && b == 10);
+    print_test_result("csl_swap", passed);
+  }
+  // write more tests
+  // no array, empty array
+  {
+    int a[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    size_t length = CSL_ARRAY_LENGTH(a);
+    int passed = (length == 10);
+    print_test_result("csl_array_length", passed);
+  }
+}
+
+void test_min_max(void) {
+  {
+    int a = 45;
+    int b = 20;
+    int result = CSL_MIN(a, b);
+    int passed = (result == 20);
+    print_test_result("csl_min_int_different", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 40.3f;
+    float result = CSL_MIN(a, b);
+    int passed = (result == 30.5f);
+    print_test_result("csl_min_float_different", passed);
+  }
+  {
+    int a = 45;
+    int b = 20;
+    int result = CSL_MAX(a, b);
+    int passed = (result == 45);
+    print_test_result("csl_max_int_different", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 40.3f;
+    float result = CSL_MAX(a, b);
+    int passed = (result == 40.3f);
+    print_test_result("csl_max_float_different", passed);
+  }
+  {
+    int a = 20;
+    int b = 20;
+    int result = CSL_MAX(a, b);
+    int passed = (result == 20);
+    print_test_result("csl_max_int_same", passed);
+  }
+  {
+    float a = 30.5f;
+    float b = 30.5f;
+    float result = CSL_MAX(a, b);
+    int passed = (result == 30.5f);
+    print_test_result("csl_max_float_same", passed);
+  }
+}
+
+void test_string_builder(void) {
+  {
+    csl_sb *sb = csl_sb_init();
+    csl_sb_delete(sb);
+    print_test_result("csl_sb_init (just check if error)", 1);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    int passed = (result == 1 && strcmp(sb->contents, "Hello, World") == 0 &&
+                  sb->length == 12);
+    print_test_result("csl_sb_append", passed);
+    csl_sb_delete(sb);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    csl_sb_clear(sb);
+    int passed = (result == 1 && strcmp(sb->contents, "") == 0 &&
+                  sb->length == 0 && sb->contents[0] == '\0');
+    print_test_result("csl_sb_clear", passed);
+    csl_sb_delete(sb);
+  }
+  {
+    csl_sb *sb = csl_sb_init();
+    int result = csl_sb_append(sb, "Hello, World");
+    char *rb = csl_sb_to_string(sb);
+    int passed = (result == 1 && strcmp(rb, "Hello, World") == 0);
+    print_test_result("csl_sb_to_string", passed);
+    csl_sb_delete(sb);
+    free(rb);
+  }
+}
+
+int main(void) {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
 
@@ -301,12 +460,27 @@ int main() {
 
   printf("Running datatype tests...\n");
 
-  test_datatypes();
+  test_datatype_pair();
+  test_datatype_optional();
+  test_datatype_result();
+
+  printf("Running fileio tests...\n");
+
+  test_fileio_readFile();
+  test_fileio_writeFile();
+
+  printf("Running define basic function tests...\n");
+  test_defines();
+  test_min_max();
+
+  printf("Running string builder tests...\n");
+  test_string_builder();
+
+  printf("\nTests completed.\n");
 
   char *color = passedTests == testCount ? CSL_COLOR_GREEN : CSL_COLOR_RED;
   printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
          CSL_COLOR_RESET);
-  printf("\nTests completed.\n");
 
   return 0;
 }

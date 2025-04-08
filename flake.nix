@@ -21,6 +21,7 @@
             packages = with pkgs; [
               clang-tools
               cmake
+              clang
               codespell
               conan
               cppcheck
@@ -29,6 +30,9 @@
               lcov
               vcpkg
               vcpkg-tool
+              valgrind
+              pandoc
+              lynx
             ] ++ (if system == "aarch64-darwin" then [ ] else [ gdb ]);
           };
       });

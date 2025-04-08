@@ -29,7 +29,7 @@ static inline csl_optional csl_optional_some(void *value) {
   return (csl_optional){.data = value, .has_value = true};
 }
 
-static inline csl_optional csl_optional_none() {
+static inline csl_optional csl_optional_none(void) {
   return (csl_optional){.data = NULL, .has_value = false};
 }
 

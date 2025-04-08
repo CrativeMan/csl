@@ -1,6 +1,6 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c11
-LDFLAGS = 
+CC = clang
+CFLAGS = -Wall -Wextra -pedantic -std=c11 -g -I/home/crative/dev/c/csl/csl/
+LDFLAGS =  
 SRCDIR = testing
 OBJDIR = obj
 TARGETDIR = bin
@@ -29,6 +29,12 @@ clean:
 
 count:
 	cloc csl testing
+
+check-for-leaks:
+	valgrind -s --leak-check=full --show-leak-kinds=all $(TARGETMAIN)
+
+render-readme:
+	pandoc README.md | lynx -stdin
 
 run:
 	./bin/main
