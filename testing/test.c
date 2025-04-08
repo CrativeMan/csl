@@ -447,13 +447,6 @@ void test_string_builder(void) {
   }
 }
 
-void test_error_codes(void) {
-  {
-    // TODO: Test this somehow lol
-    csl_ecode error = CSL_OK;
-  }
-}
-
 int main(void) {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
