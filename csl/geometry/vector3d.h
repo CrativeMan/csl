@@ -1,5 +1,5 @@
-#ifndef CSL_GEOMETRY_VECTORS_H
-#define CSL_GEOMETRY_VECTORS_H
+#ifndef CSL_GEOMETRY_VECTOR3D_H
+#define CSL_GEOMETRY_VECTOR3D_H
 
 #include "../csl.h"
 
@@ -126,4 +126,4 @@ inline void csl_v3f_cross(v3f *result, const v3f *a, const v3f *b) {
   result->z = ax_by - bx_ay;
 }
 
-#endif // CSL_GEOMETRY_VECTORS_H
+#endif // CSL_GEOMETRY_VECTOR3D_H

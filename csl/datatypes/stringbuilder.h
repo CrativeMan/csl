@@ -43,7 +43,7 @@ if (new_length >= sb->capacity) {
   size_t new_capacity = sb->capacity * 2;
   if (new_capacity <= new_length) new_capacity = new_length + 1;
 
-  char *new_buffer = realloc(sb->contents, new_capacity);
+  char *new_buffer = (char*)realloc(sb->contents, new_capacity);
   if (!new_buffer) {
     perror("realloc");
     return 0;
