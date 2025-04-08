@@ -1,12 +1,12 @@
-#include "../csl/colors.h"
-#include "../csl/datatypes/error.h"
-#include "../csl/datatypes/optional.h"
-#include "../csl/datatypes/pair.h"
-#include "../csl/datatypes/result.h"
-#include "../csl/datatypes/stringbuilder.h"
-#include "../csl/fileio/text.h"
-#include "../csl/geometry/vector2d.h"
-#include "../csl/geometry/vector3d.h"
+#include "colors.h"
+#include "datatypes/error.h"
+#include "datatypes/optional.h"
+#include "datatypes/pair.h"
+#include "datatypes/result.h"
+#include "datatypes/stringbuilder.h"
+#include "fileio/text.h"
+#include "geometry/vector2d.h"
+#include "geometry/vector3d.h"
 
 #include <limits.h>
 #include <locale.h>
@@ -30,7 +30,7 @@ void print_test_result(const char *test_name, int passed) {
          CSL_COLOR_RESET);
 }
 
-void test_vector_set() {
+void test_vector_set(void) {
   {
     v2i vec;
     csl_v2i_set(&vec, 5, 10);
@@ -82,7 +82,7 @@ void test_vector_set() {
   }
 }
 
-void test_vector_scale() {
+void test_vector_scale(void) {
   {
     v2i vec;
     csl_v2i_set(&vec, 5, 10);
@@ -113,7 +113,7 @@ void test_vector_scale() {
   }
 }
 
-void test_vector_add() {
+void test_vector_add(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -148,7 +148,7 @@ void test_vector_add() {
   }
 }
 
-void test_vector_subtract() {
+void test_vector_subtract(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -183,7 +183,7 @@ void test_vector_subtract() {
   }
 }
 
-void test_vector_dot() {
+void test_vector_dot(void) {
   {
     v2i vec1, vec2;
     csl_v2i_set(&vec1, 5, 10);
@@ -218,7 +218,7 @@ void test_vector_dot() {
   }
 }
 
-void test_vector_cross() {
+void test_vector_cross(void) {
   {
     v3i vec1, vec2, result;
     csl_v3i_set(&vec1, 5, 10, 15);
@@ -239,7 +239,7 @@ void test_vector_cross() {
   }
 }
 
-void test_datatype_pair() {
+void test_datatype_pair(void) {
   {
     CSL_DEFINE_PAIR(test, int, float);
     test testt;
@@ -250,7 +250,7 @@ void test_datatype_pair() {
   }
 }
 
-void test_datatype_optional() {
+void test_datatype_optional(void) {
   {
     csl_optional test;
     test = csl_optional_some(testValue);
@@ -274,7 +274,7 @@ void test_datatype_optional() {
   }
 }
 
-void test_datatype_result() {
+void test_datatype_result(void) {
   {
     csl_result test;
     test = csl_result_ok(testValue);
@@ -300,7 +300,7 @@ void test_datatype_result() {
   }
 }
 
-void test_fileio_readFile() {
+void test_fileio_readFile(void) {
   {
     char *buffer = csl_read_string_from_file("testing/testtxt.txt");
     int passed = (strcmp(buffer, "Hello, World!\nLorem Ipsum\n") == 0);
@@ -339,7 +339,7 @@ void test_fileio_readFile() {
   }
 }
 
-void test_fileio_writeFile() {
+void test_fileio_writeFile(void) {
   {
     const char *buffer =
         "Hello, World!\nThis is a new line.\nThis is a new line with numbers.";
@@ -348,7 +348,7 @@ void test_fileio_writeFile() {
   }
 }
 
-void test_defines() {
+void test_defines(void) {
   // write more tests
   // same value, diffrent data types
   {
@@ -368,7 +368,7 @@ void test_defines() {
   }
 }
 
-void test_min_max() {
+void test_min_max(void) {
   {
     int a = 45;
     int b = 20;
@@ -413,7 +413,7 @@ void test_min_max() {
   }
 }
 
-void test_string_builder() {
+void test_string_builder(void) {
   {
     csl_sb *sb = csl_sb_init();
     csl_sb_delete(sb);
@@ -447,14 +447,14 @@ void test_string_builder() {
   }
 }
 
-void test_error_codes() {
+void test_error_codes(void) {
   {
     // TODO: Test this somehow lol
     csl_ecode error = CSL_OK;
   }
 }
 
-int main() {
+int main(void) {
   setlocale(LC_ALL, "");
   printf("Running vector tests...\n");
 

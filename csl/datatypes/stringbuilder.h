@@ -16,9 +16,10 @@ struct t_csl_stringbuilder {
 
 typedef struct t_csl_stringbuilder csl_sb;
 
-inline csl_sb *csl_sb_init() {
+inline csl_sb *csl_sb_init(void) {
   csl_sb *sb = (csl_sb *)malloc(sizeof(csl_sb));
-  if (sb == NULL) return NULL;
+  if (sb == NULL)
+    return NULL;
   sb->capacity = CSL_SB_DEFAULT_CAPACITY;
   sb->length = 0;
   sb->contents = (char *)malloc(CSL_SB_DEFAULT_CAPACITY * sizeof(char) + 1);
@@ -34,24 +35,27 @@ inline void csl_sb_delete(csl_sb *sb) {
 }
 
 inline int csl_sb_append(csl_sb *sb, const char *contents) {
-  if (sb == NULL || sb->contents == NULL) return 0;
-  if (contents == NULL || strcmp(contents, "") == 0) return 0;
+  if (sb == NULL || sb->contents == NULL)
+    return 0;
+  if (contents == NULL || strcmp(contents, "") == 0)
+    return 0;
   size_t new_content_length = strlen(contents);
   size_t new_length = sb->length + new_content_length;
 
-if (new_length >= sb->capacity) {
-  size_t new_capacity = sb->capacity * 2;
-  if (new_capacity <= new_length) new_capacity = new_length + 1;
+  if (new_length >= sb->capacity) {
+    size_t new_capacity = sb->capacity * 2;
+    if (new_capacity <= new_length)
+      new_capacity = new_length + 1;
 
-  char *new_buffer = (char*)realloc(sb->contents, new_capacity);
-  if (!new_buffer) {
-    perror("realloc");
-    return 0;
+    char *new_buffer = (char *)realloc(sb->contents, new_capacity);
+    if (!new_buffer) {
+      perror("realloc");
+      return 0;
+    }
+
+    sb->contents = new_buffer;
+    sb->capacity = new_capacity;
   }
-
-  sb->contents = new_buffer;
-  sb->capacity = new_capacity;
-}
 
   memcpy(sb->contents + sb->length, contents, new_content_length);
   sb->contents[new_length] = '\0';
@@ -67,20 +71,22 @@ inline void csl_sb_clear(csl_sb *sb) {
 }
 
 inline char *csl_sb_to_string(const csl_sb *sb) {
-  if (sb == NULL || sb->contents == NULL) return NULL;
+  if (sb == NULL || sb->contents == NULL)
+    return NULL;
   if (sb->length == 0) {
     char *empty = (char *)malloc(1);
-    if (!empty) return NULL;
+    if (!empty)
+      return NULL;
     empty[0] = '\0';
     return empty;
   }
 
   char *copy = (char *)malloc(sb->length + 1);
-  if (!copy) return NULL;
+  if (!copy)
+    return NULL;
   memcpy(copy, sb->contents, sb->length + 1);
   return copy;
 }
-
 
 /**
  * csl_sb_insert
