@@ -23,7 +23,16 @@ The data parameter of the optional can be heap allocated and thus needs to be ha
     - `csl_optional csl_optional_none()`:
     Returns a empty optional with `has_value` set to false and `data` set to NULL.
 - Example:
-    - XXX TODO XXX
+    ```c
+    csl_optional db_request() {
+        int value;
+        /* snip */
+        return csl_optional_some(&value);
+    }
+
+    csl_optional rv = db_request();
+    assert(rv.has_value == true);
+    ```
 ### Pair
 - Description:
     - A Pair is a datatype that stores two diffrent variables with equal or diffrent data types. The Implementation of this is being handled by a Macro that takes in the name of the resulting Pair, and both datatypes.
@@ -33,3 +42,5 @@ The data parameter of the optional can be heap allocated and thus needs to be ha
     pair1.first = 10;
     pair1.second = 15.4f;
     ```
+### Result
+

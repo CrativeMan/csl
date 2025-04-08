@@ -1,6 +1,0 @@
-* Circular buffer
-* Error codes
-* String utils
-  * basic string manipulation
-* macros
-  * bit manipulation 
