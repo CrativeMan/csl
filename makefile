@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = -Wall -Wextra -pedantic -std=c11 -g -I/home/crative/dev/c/csl/csl/
-LDFLAGS =  
+LDFLAGS = -lm
 SRCDIR = testing
 OBJDIR = obj
 TARGETDIR = bin
