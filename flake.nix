@@ -34,8 +34,17 @@
               pandoc
               lynx
             ] ++ (if system == "aarch64-darwin" then [ ] else [ gdb ]);
+
+            shellHook = ''
+              if [ -f TODO.md ]; then
+                echo "-------------------------------------------------------------------------------"
+                cat TODO.md
+                echo "-------------------------------------------------------------------------------"
+              else
+                echo "TODO.md not found."
+              fi
+            '';
           };
       });
     };
 }
-
