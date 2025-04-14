@@ -12,9 +12,9 @@
  * @TYPE2 the second type of the pair being created
  */
 #define CSL_DEFINE_PAIR(NAME, TYPE1, TYPE2)                                    \
-  typedef struct {                                                             \
-    TYPE1 first;                                                               \
-    TYPE2 second;                                                              \
-  } NAME;
+    typedef struct {                                                           \
+        TYPE1 first;                                                           \
+        TYPE2 second;                                                          \
+    } NAME;
 
 #endif // !CSL_DATATYPES_PAIR_H

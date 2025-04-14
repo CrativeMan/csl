@@ -118,7 +118,7 @@ inline f32 csl_v3f_dot(v3f *a, v3f *b) {
 
 // Cross Product
 inline void csl_v3i_cross(v3i *result, const v3i *a, const v3i *b) {
-    if (! result || !a || !b)
+    if (!result || !a || !b)
         return;
     i32 ay_bz = a->y * b->z;
     i32 az_bx = a->z * b->x;
@@ -132,7 +132,7 @@ inline void csl_v3i_cross(v3i *result, const v3i *a, const v3i *b) {
     result->z = ax_by - bx_ay;
 }
 inline void csl_v3f_cross(v3f *result, const v3f *a, const v3f *b) {
-    if (! result || !a || !b)
+    if (!result || !a || !b)
         return;
     f32 ay_bz = a->y * b->z;
     f32 az_bx = a->z * b->x;
