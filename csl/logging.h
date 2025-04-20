@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include <colors.h>
+#include "colors.h"
 
 #define LOGDEV(...) loggerDev(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG(...) loggerInfo(__FILE__, __LINE__, __VA_ARGS__)
