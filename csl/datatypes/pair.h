@@ -5,6 +5,23 @@
 // Pair
 // ===============================================
 
+#include "csl.h"
+
+typedef struct {
+    f32 first;
+    f32 second;
+} csl_f32_pair;
+
+typedef struct {
+    i32 first;
+    i32 second;
+} csl_i32_pair;
+
+typedef struct {
+    u32 first;
+    u32 second;
+} csl_u32_pair;
+
 /**
  * A define that creates a struct with two parameters
  * @NAME the name for the to defined struct
