@@ -198,7 +198,7 @@ void test_logging(void) {
     LOG("This is a normal log message");
     LOGWRN("This is a warning log message");
     LOGERR("This is an error log message");
-    print_test_result("csl_logging_test", true);
+    evaluate_test_results("csl_logging_test", true);
 }
 
 int main(void) {
@@ -230,7 +230,6 @@ int main(void) {
         test_min_max();
         test_logging();
     }
-
     printf("Running string builder tests...\n");
     {
         test_string_builder();
