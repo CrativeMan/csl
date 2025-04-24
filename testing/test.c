@@ -1,4 +1,6 @@
 #include "colors.h"
+#include "csl.h"
+#include "datatypes/dyn_array.h"
 #include "datatypes/optional.h"
 #include "datatypes/pair.h"
 #include "datatypes/result.h"
@@ -543,6 +545,35 @@ void test_string_builder(void) {
     }
 }
 
+void test_dyn_array(void) {
+    {
+        csl_dyn_array_t(arr, i32);
+
+        for (i32 i = 0; i < 10; i++)
+            csl_dyn_array_append(arr, i);
+
+        for (usize i = 0; i < 2; i++)
+            csl_dyn_array_pop(arr);
+
+        for (usize i = 0; i < 2; i++)
+            csl_dyn_array_shift(arr);
+
+        for (usize i = 0; i < arr.length; i++)
+            printf("%d\n", arr.data[i]);
+
+        printf("Post shift\n");
+        for (usize i = 0; i < 2; i++)
+            csl_dyn_array_unshift(arr, i);
+
+        csl_dyn_array_insert(arr, 2, 10);
+
+        for (usize i = 0; i < arr.length; i++)
+            printf("%d\n", arr.data[i]);
+
+        free(arr.data);
+    }
+}
+
 int main(void) {
     setlocale(LC_ALL, "");
     printf("Running vector tests...\n");
@@ -571,6 +602,9 @@ int main(void) {
 
     printf("Running string builder tests...\n");
     test_string_builder();
+
+    printf("Running dyn array tests...\n");
+    test_dyn_array();
 
     printf("\nTests completed.\n");
 
