@@ -10,10 +10,10 @@
  * for functions to run that are set to atexit
  */
 #define CSL_ASSERT(_e, ...)                                                    \
-  if (!(_e)) {                                                                 \
-    fprintf(stderr, __VA_ARGS__);                                              \
-    exit(1);                                                                   \
-  }
+    if (!(_e)) {                                                               \
+        fprintf(stderr, __VA_ARGS__);                                          \
+        exit(1);                                                               \
+    }
 
 typedef float f32;
 typedef double f64;
@@ -32,10 +32,10 @@ typedef unsigned char uchar;
 #define CSL_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define CSL_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CSL_SWAP(a, b)                                                         \
-  do {                                                                         \
-    __typeof__(a) _csl_temp = (a);                                             \
-    (a) = (b);                                                                 \
-    (b) = _csl_temp;                                                           \
-  } while (0)
+    do {                                                                       \
+        __typeof__(a) _csl_temp = (a);                                         \
+        (a) = (b);                                                             \
+        (b) = _csl_temp;                                                       \
+    } while (0)
 
 #endif // CSL_CSL_H

@@ -8,9 +8,9 @@
 // ===============================================
 
 typedef enum {
-  CSL_RESULT_OK = 0,
-  CSL_RESULT_WARN,
-  CSL_RESULT_ERROR,
+    CSL_RESULT_OK = 0,
+    CSL_RESULT_WARN,
+    CSL_RESULT_ERROR,
 } csl_result_status;
 
 /**
@@ -23,24 +23,24 @@ typedef enum {
  * created when our result should fail
  */
 typedef struct {
-  csl_result_status status;
-  void *value;
-  const char *error_message;
+    csl_result_status status;
+    void *value;
+    const char *error_message;
 } csl_result;
 
 static inline csl_result csl_result_ok(void *value) {
-  return (csl_result){
-      .status = CSL_RESULT_OK, .value = value, .error_message = NULL};
+    return (csl_result){
+        .status = CSL_RESULT_OK, .value = value, .error_message = NULL};
 }
 
 static inline csl_result csl_result_warn(void *value, const char *message) {
-  return (csl_result){
-      .status = CSL_RESULT_OK, .value = value, .error_message = message};
+    return (csl_result){
+        .status = CSL_RESULT_OK, .value = value, .error_message = message};
 }
 
 static inline csl_result csl_result_error(const char *message) {
-  return (csl_result){
-      .status = CSL_RESULT_ERROR, .value = NULL, .error_message = message};
+    return (csl_result){
+        .status = CSL_RESULT_ERROR, .value = NULL, .error_message = message};
 }
 
 #endif // !CSL_DATATYPES_RESULT_H

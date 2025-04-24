@@ -1,5 +1,6 @@
 #include "colors.h"
 #include "csl.h"
+#include "logging.h"
 #include "datatypes/optional.h"
 #include "datatypes/pair.h"
 #include "datatypes/result.h"
@@ -192,6 +193,14 @@ void test_string_builder(void) {
     }
 }
 
+void test_logging(void) {
+    LOGDEV("This is a dev log message");
+    LOG("This is a normal log message");
+    LOGWRN("This is a warning log message");
+    LOGERR("This is an error log message");
+    print_test_result("csl_logging_test", true);
+}
+
 int main(void) {
     setlocale(LC_ALL, "");
 
@@ -219,7 +228,9 @@ int main(void) {
     {
         test_defines();
         test_min_max();
+        test_logging();
     }
+
     printf("Running string builder tests...\n");
     {
         test_string_builder();
