@@ -85,6 +85,7 @@
             &array.data[index];                                                \
     })
 
+// TODO free data
 #define csl_dyn_array_clear(array)                                             \
     do {                                                                       \
         array.length = 0;                                                      \
