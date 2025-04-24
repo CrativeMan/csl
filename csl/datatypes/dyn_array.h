@@ -78,6 +78,13 @@
         array.length--;                                                        \
     } while (0)
 
+#define csl_dyn_array_at(array, index)                                         \
+    ({                                                                         \
+        CSL_ASSERT(index >= 0 && index < array.length,                         \
+                   "csl: dyn array index out of bounds");                      \
+            &array.data[index];                                                \
+    })
+
 #define csl_dyn_array_clear(array)                                             \
     do {                                                                       \
         array.length = 0;                                                      \

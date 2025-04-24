@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -Wextra -pedantic -std=c11 -g -I/home/crative/dev/c/csl/csl/
+CFLAGS = -Wall -Wextra -pedantic -std=c11 -g -I/home/crative/dev/c/csl/csl/ -Wno-gnu
 LDFLAGS = -lm
 SRCDIR = testing
 OBJDIR = obj
