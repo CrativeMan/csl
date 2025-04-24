@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * Assertion that uses exit(1) to close out of the program allowing
