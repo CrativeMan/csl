@@ -11,7 +11,7 @@
  */
 #define CSL_ASSERT(_e, ...)                                                    \
     if (!(_e)) {                                                               \
-        fprintf(stderr, "csl_assert: [%s:%d] ", __FILE__, __LINE__);                                                     \
+        fprintf(stderr, "csl_assert: [%s:%d] ", __FILE__, __LINE__);           \
         fprintf(stderr, __VA_ARGS__);                                          \
         exit(1);                                                               \
     }
