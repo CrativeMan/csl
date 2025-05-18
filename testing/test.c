@@ -244,5 +244,10 @@ int main(void) {
     printf("\n%s%d/%d Tests passed.%s\n", color, passedTests, testCount,
            CSL_COLOR_RESET);
 
+    printf("\nTesting assertion...\n");
+    printf("(Only false assertion should display)\n");
+    CSL_ASSERT(true, "True assertion\n");
+    CSL_ASSERT(false, "False assertion\n");
+
     return 0;
 }

@@ -2,8 +2,8 @@
 #define CSL_CSL_H
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * Assertion that uses exit(1) to close out of the program allowing
@@ -11,6 +11,7 @@
  */
 #define CSL_ASSERT(_e, ...)                                                    \
     if (!(_e)) {                                                               \
+        fprintf(stderr, "csl_assert: [%s:%d] ", __FILE__, __LINE__);                                                     \
         fprintf(stderr, __VA_ARGS__);                                          \
         exit(1);                                                               \
     }
