@@ -4,7 +4,6 @@
 #include "datatypes/optional.h"
 #include "datatypes/pair.h"
 #include "datatypes/result.h"
-#include "datatypes/stringbuilder.h"
 
 #include "test.h"
 
@@ -155,41 +154,6 @@ void test_min_max(void) {
         float result = CSL_MAX(a, b);
         int passed = (result == 30.5f);
         evaluate_test_results("csl_max_float_same", passed);
-    }
-}
-
-void test_string_builder(void) {
-    {
-        csl_sb *sb = csl_sb_init();
-        csl_sb_delete(sb);
-        evaluate_test_results("csl_sb_init (just check if error)", 1);
-    }
-    {
-        csl_sb *sb = csl_sb_init();
-        int result = csl_sb_append(sb, "Hello, World");
-        int passed =
-            (result == 1 && strcmp(sb->contents, "Hello, World") == 0 &&
-             sb->length == 12);
-        evaluate_test_results("csl_sb_append", passed);
-        csl_sb_delete(sb);
-    }
-    {
-        csl_sb *sb = csl_sb_init();
-        int result = csl_sb_append(sb, "Hello, World");
-        csl_sb_clear(sb);
-        int passed = (result == 1 && strcmp(sb->contents, "") == 0 &&
-                      sb->length == 0 && sb->contents[0] == '\0');
-        evaluate_test_results("csl_sb_clear", passed);
-        csl_sb_delete(sb);
-    }
-    {
-        csl_sb *sb = csl_sb_init();
-        int result = csl_sb_append(sb, "Hello, World");
-        char *rb = csl_sb_to_string(sb);
-        int passed = (result == 1 && strcmp(rb, "Hello, World") == 0);
-        evaluate_test_results("csl_sb_to_string", passed);
-        csl_sb_delete(sb);
-        free(rb);
     }
 }
 

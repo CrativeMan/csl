@@ -7,12 +7,12 @@
 
 #include "colors.h"
 
-#define LOGDEV(...) loggerDev(__FILE__, __LINE__, __VA_ARGS__)
-#define LOG(...) loggerInfo(__FILE__, __LINE__, __VA_ARGS__)
-#define LOGWRN(...) loggerWarn(__FILE__, __LINE__, __VA_ARGS__)
-#define LOGERR(...) loggerError(__FILE__, __LINE__, __VA_ARGS__)
+#define LOGDEV(...) _csl_logger_dev(__FILE__, __LINE__, __VA_ARGS__)
+#define LOG(...) _csl_logger_info(__FILE__, __LINE__, __VA_ARGS__)
+#define LOGWRN(...) _csl_logger_warn(__FILE__, __LINE__, __VA_ARGS__)
+#define LOGERR(...) _csl_logger_error(__FILE__, __LINE__, __VA_ARGS__)
 
-inline static void loggerPrintId(const char *file, int line, const char *id) {
+inline static void _cls_logger_print_id(const char *file, int line, const char *id) {
     time_t now = time(NULL);
     struct tm *time_info = localtime(&now);
 
@@ -21,38 +21,38 @@ inline static void loggerPrintId(const char *file, int line, const char *id) {
            time_info->tm_sec);
 }
 
-inline static void loggerDev(const char *file, int line, const char *message, ...) {
+inline static void _csl_logger_dev(const char *file, int line, const char *message, ...) {
     va_list args;
-    loggerPrintId(file, line, "DEV");
+    _cls_logger_print_id(file, line, "DEV");
     va_start(args, message);
     vprintf(message, args);
     printf("\n");
     va_end(args);
 }
 
-inline static void loggerInfo(const char *file, int line, const char *message, ...) {
+inline static void _csl_logger_info(const char *file, int line, const char *message, ...) {
     va_list args;
-    loggerPrintId(file, line, "INF");
+    _cls_logger_print_id(file, line, "INF");
     va_start(args, message);
     vprintf(message, args);
     printf("\n");
     va_end(args);
 }
 
-inline static void loggerWarn(const char *file, int line, const char *message, ...) {
+inline static void _csl_logger_warn(const char *file, int line, const char *message, ...) {
     va_list args;
     printf("%s", CSL_COLOR_YELLOW);
-    loggerPrintId(file, line, "WRN");
+    _cls_logger_print_id(file, line, "WRN");
     va_start(args, message);
     vprintf(message, args);
     printf("%s\n", CSL_COLOR_RESET);
     va_end(args);
 }
 
-inline static void loggerError(const char *file, int line, const char *message, ...) {
+inline static void _csl_logger_error(const char *file, int line, const char *message, ...) {
     va_list args;
     printf("%s", CSL_COLOR_RED);
-    loggerPrintId(file, line, "ERR");
+    _cls_logger_print_id(file, line, "ERR");
     va_start(args, message);
     vprintf(message, args);
     printf("%s\n", CSL_COLOR_RESET);

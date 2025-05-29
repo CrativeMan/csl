@@ -17,6 +17,7 @@ void test_fileio_readFile(void);
 void test_fileio_writeFile(void);
 
 void test_dyn_array(void);
+void test_string_builder(void);
 
 
 #endif // TESTING_TEST_H

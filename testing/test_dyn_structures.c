@@ -1,6 +1,7 @@
 #include "test.h"
 
-#include "datatypes/dyn_array.h"
+#include "datatypes/dynamic/array.h"
+#include "datatypes/dynamic/stringbuilder.h"
 
 
 void test_dyn_array(void) {
@@ -74,5 +75,40 @@ void test_dyn_array(void) {
         csl_dyn_array_clear(arr);
         int passed = (arr.length == 0);
         evaluate_test_results("csl_dyn_array_clear_normal", passed);
+    }
+}
+
+void test_string_builder(void) {
+    {
+        csl_sb *sb = csl_sb_init();
+        csl_sb_delete(sb);
+        evaluate_test_results("csl_sb_init (just check if error)", 1);
+    }
+    {
+        csl_sb *sb = csl_sb_init();
+        int result = csl_sb_append(sb, "Hello, World");
+        int passed =
+            (result == 1 && strcmp(sb->contents, "Hello, World") == 0 &&
+             sb->length == 12);
+        evaluate_test_results("csl_sb_append", passed);
+        csl_sb_delete(sb);
+    }
+    {
+        csl_sb *sb = csl_sb_init();
+        int result = csl_sb_append(sb, "Hello, World");
+        csl_sb_clear(sb);
+        int passed = (result == 1 && strcmp(sb->contents, "") == 0 &&
+                      sb->length == 0 && sb->contents[0] == '\0');
+        evaluate_test_results("csl_sb_clear", passed);
+        csl_sb_delete(sb);
+    }
+    {
+        csl_sb *sb = csl_sb_init();
+        int result = csl_sb_append(sb, "Hello, World");
+        char *rb = csl_sb_to_string(sb);
+        int passed = (result == 1 && strcmp(rb, "Hello, World") == 0);
+        evaluate_test_results("csl_sb_to_string", passed);
+        csl_sb_delete(sb);
+        free(rb);
     }
 }

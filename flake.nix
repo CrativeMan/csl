@@ -38,6 +38,7 @@
               valgrind
               pandoc
               lynx
+              gdb
             ]
             ++ (
               if system == "aarch64-darwin"
