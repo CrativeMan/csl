@@ -3,8 +3,16 @@
 
 extern int passedTests;
 extern int testCount;
+extern char *testValue;
 
 extern void evaluate_test_results(const char *test_name, int passed);
+
+void test_datatype_pair(void);
+void test_datatype_optional(void);
+void test_datatype_result(void);
+void test_defines(void);
+void test_min_max(void);
+void test_logging(void);
 
 void test_vector_set(void);
 void test_vector_scale(void);
