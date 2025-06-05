@@ -34,9 +34,9 @@ typedef unsigned char uchar;
 #define CSL_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CSL_SWAP(a, b)                                                         \
     do {                                                                       \
-        __typeof__(a) _csl_temp = (a);                                         \
+        __typeof__(a) __csl_temp = (a);                                        \
         (a) = (b);                                                             \
-        (b) = _csl_temp;                                                       \
+        (b) = __csl_temp;                                                      \
     } while (0)
 
 #endif // CSL_CSL_H
