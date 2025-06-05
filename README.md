@@ -11,7 +11,7 @@ You can use it by just simply cloning the projects master branch or copying the 
 
 ## ## Datatypes
 
-### Optional:
+### ### Optional:
 
 - Description: - An optional is a datatype that can either have or have not a value. This is indicated through a bool and/or a null or full data parameter.
   The data parameter of the optional can be heap allocated and thus needs to be handled by the caller of the optional.
@@ -36,10 +36,11 @@ You can use it by just simply cloning the projects master branch or copying the 
   assert(rv.has_value == true);
   ```
 
-### Pair
+### ### Pair
 
 - Description:
-  - A Pair is a datatype that stores two diffrent variables with equal or diffrent data types. The Implementation of this is being handled by a Macro that takes in the name of the resulting Pair, and both datatypes.
+  - A Pair is a datatype that stores two different variables with equal or different data types. The Implementation of this is being handled by a Macro that takes in the name of the resulting Pair, and both datatypes.
+  - It has a few standard types that can be used to create a pair more quickly using these basic types.
 - Example:
   ```c
   CSL_DEFINE_PAIR(pair1, int, float);
@@ -47,7 +48,7 @@ You can use it by just simply cloning the projects master branch or copying the 
   pair1.second = 15.4f;
   ```
 
-### Result
+### ### Result
 
 - Description:
   - Results are a datatype that holds a pointer to a `value` a `csl_result_status` and a const char `error_message`.
