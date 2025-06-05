@@ -1,7 +1,7 @@
 #ifndef CSL_DATATYPES_DYN_ARRAY_H
 #define CSL_DATATYPES_DYN_ARRAY_H
 
-#include "../csl.h"
+#include "../../csl.h"
 #include <string.h>
 
 #define CSL_DYN_ARRAY_INITIAL_CAPACITY 2
@@ -82,13 +82,14 @@
     ({                                                                         \
         CSL_ASSERT(index >= 0 && index < array.length,                         \
                    "csl: dyn array index out of bounds");                      \
-            &array.data[index];                                                \
+        &array.data[index];                                                    \
     })
 
 // TODO free data
 #define csl_dyn_array_clear(array)                                             \
     do {                                                                       \
         array.length = 0;                                                      \
+        free(array.data);                                                      \
     } while (0)
 
 #endif // CSL_DATATYPES_DYN_ARRAY_H

@@ -1,6 +1,7 @@
 #ifndef CSL_DATATYPES_STRINGBUILDER_H
 #define CSL_DATATYPES_STRINGBUILDER_H
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,9 +37,9 @@ inline void csl_sb_delete(csl_sb *sb) {
 
 inline int csl_sb_append(csl_sb *sb, const char *contents) {
     if (sb == NULL || sb->contents == NULL)
-        return 0;
+        return false;
     if (contents == NULL || strcmp(contents, "") == 0)
-        return 0;
+        return false;
     size_t new_content_length = strlen(contents);
     size_t new_length = sb->length + new_content_length;
 
@@ -50,7 +51,7 @@ inline int csl_sb_append(csl_sb *sb, const char *contents) {
         char *new_buffer = (char *)realloc(sb->contents, new_capacity);
         if (!new_buffer) {
             perror("realloc");
-            return 0;
+            return false;
         }
 
         sb->contents = new_buffer;
@@ -60,7 +61,7 @@ inline int csl_sb_append(csl_sb *sb, const char *contents) {
     memcpy(sb->contents + sb->length, contents, new_content_length);
     sb->contents[new_length] = '\0';
     sb->length = new_length;
-    return 1;
+    return true;
 }
 
 inline void csl_sb_clear(csl_sb *sb) {

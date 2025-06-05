@@ -2,8 +2,8 @@
 #define CSL_CSL_H
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * Assertion that uses exit(1) to close out of the program allowing
@@ -11,6 +11,7 @@
  */
 #define CSL_ASSERT(_e, ...)                                                    \
     if (!(_e)) {                                                               \
+        fprintf(stderr, "csl_assert: [%s:%d] ", __FILE__, __LINE__);           \
         fprintf(stderr, __VA_ARGS__);                                          \
         exit(1);                                                               \
     }
@@ -33,9 +34,9 @@ typedef unsigned char uchar;
 #define CSL_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define CSL_SWAP(a, b)                                                         \
     do {                                                                       \
-        __typeof__(a) _csl_temp = (a);                                         \
+        __typeof__(a) __csl_temp = (a);                                        \
         (a) = (b);                                                             \
-        (b) = _csl_temp;                                                       \
+        (b) = __csl_temp;                                                      \
     } while (0)
 
 #endif // CSL_CSL_H
