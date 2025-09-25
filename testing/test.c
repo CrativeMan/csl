@@ -19,7 +19,7 @@ void cslint_test(const char *test_name, bool should_fail, bool result) {
     bool passed = (result && !should_fail) || (!result && should_fail);
     passed ? passedTests++ : passedTests;
 
-    char *symbol = passed ? "✓" : "◯";
+    char *symbol = passed ? "\033[1;32m✓\033[0m" : "\033[1;31m◯\033[0m";
     char *color = passed ? CSL_COLOR_GREEN : CSL_COLOR_RED;
     char *context = passed ? "PASSED" : "FAILED";
     printf("%d. %s %s: %s%s%s\n", testCount, symbol, test_name, color, context,
