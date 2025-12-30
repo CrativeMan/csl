@@ -9,6 +9,28 @@ You can use it by just simply cloning the projects master branch or copying the 
 
 ## ## Features
 
+### ### Logging: 
+- Warning: Loglevels are still WIP. Loglevels atm only change the color of the log message.
+- Description: A very basic logger that works using time.h + stdio.h + stdarg.h to log information and user defined text to the console.
+- Functions:
+	-  `LOGDEV(...) aka _csl_logger_dev(__FILE__, __LINE__, __VA_ARGS__)`: To log using the DEV log level.
+	-  `LOG(...) aka _csl_logger_info(__FILE__, __LINE__, __VA_ARGS__)`: To log using the standard INF log level.
+	-  `LOGWRN(...) aka _csl_logger_warn(__FILE__, __LINE__, __VA_ARGS__)`: To log using the WRN log level.
+	-  `LOGERR(...) aka _csl_logger_error(__FILE__, __LINE__, __VA_ARGS__)`: To log using the ERR log level.
+- Example:
+```c
+int main() {
+	int a = 10;
+	LOG("Value %d", a);
+	LOGERR("An error occured");
+}
+```
+Console output:
+```bash
+[INF][main.c:%][17:58:18]      Value 10
+[ERR][main.c:%][17:58:18]      An error occured
+```
+
 ## ## Datatypes
 
 ### ### Optional:
