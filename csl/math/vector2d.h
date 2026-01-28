@@ -45,7 +45,9 @@ inline void csl_v2f_zero(v2f *v) {
     v->y = 0.0f;
 }
 
-// ===============================================
+#define CSL_V2I(name, x, y) v2i name = {x, y}
+#define CSL_V2F(name, x, y) v2f name = {x, y}
+
 // Vector operations
 // ===============================================
 
@@ -92,12 +94,12 @@ inline void csl_v2f_subtract(v2f *vfrom, v2f *v) {
 }
 
 // Dot Product
-inline i32 csl_v2i_dot(v2i *a, v2i *b) {
+inline i32 csl_v2i_dot(const v2i *a, const v2i *b) {
     if (!a || !b)
         return -1;
     return a->x * b->x + a->y * b->y;
 }
-inline f32 csl_v2f_dot(v2f *a, v2f *b) {
+inline f32 csl_v2f_dot(const v2f *a, const v2f *b) {
     if (!a || !b)
         return -1;
     return a->x * b->x + a->y * b->y;
